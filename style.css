@@ -1,9 +1,30 @@
+html{
+    font-family: 'Press Start 2P', system-ui;
+}
+
+h1{
+    font-size: 50px;
+}
+
+.header{
+    text-align: center;
+    position:relative;   
+}
+
+body{
+    height: 100%;
+    width: 100%;
+    position: relative;
+    background-color: lavender;
+}
+
 #board{
     background-image: url(./images/board.png);
     height: 720px;
     width: 720px;
     margin: auto;
     position: relative;
+    justify-content: center;
 }
 #player{
     height: 72px;
@@ -49,10 +70,17 @@
 #count{
     border: solid red;
     height: 60px;
-    width: 718px;
+    width: 715px;
     margin: auto;
     text-align: end;
+}
 
+#myBtn {
+    height: 70px;
+    width: 90px;
+    opacity: 1;
+    text-align: center;
+    display: visible;
 }
  
 #zumoX {
