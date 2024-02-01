@@ -17,10 +17,15 @@ var createEnemyInt
 var createJavaInt
 var musicGame = new Audio("./images/happy.mp3");
 
+
+var initialInterval = 2500
+var increaseSpeed = 100
+var minSpeed = 500
+var intervalToCreate = initialInterval
+
 /*function createZumo() {
-    
     var coord3 = Math.floor(Math.random() * 10) * 72 // generacion de ramdon
-    var zumoX = new ZumoX(0, coord3, board, player, enemies)
+    var zumoX = new ZumoX(0, coord3, board, player, zumos)
     zumoX.insertZumo() 
     zumos.push(zumoX) 
     //velocidad de la caida libre
@@ -38,23 +43,6 @@ function createJava() {
 }
 
 
-function createEnemy() {
-    var coord = Math.floor(Math.random() * 10) * 72 // generacion de ramdon
-    var coord1 = Math.floor(Math.random() * 10) * 72 // generacion de ramdon
-    
-    var enemyY = new EnemyY(coord, 0, board, player, enemies)
-    var enemyX = new EnemyX(0, coord1, board, player, enemies)
-    
-    enemyY.insertEnemy() 
-    enemyX.insertEnemy()
-    
-    enemies.push(enemyY, enemyX) 
-     //velocidad de la caida libre
-     console.log(enemies)
-
-  }
-  
-
 function createLife (n){
     for (var i = 0; i < n; i++) {
         life = new Life(30 * i, 15, board); 
@@ -70,17 +58,13 @@ function gameOver(){
         clearInterval(createJavaInt)
         enemies.forEach(function(enemy){
             enemy.removeEnemy()
-            
         })
-
         javass.forEach(function(java){
             java.removeJavaY()
         })
         board.removeChild(player.sprite)
         gameover.style.opacity = 1
-        life.style.opacity = 0
     } 
-      enemies = []
 }
 
 
@@ -88,24 +72,36 @@ function gameStart(){ //función de creación de personaje + enemigo amarillo
     musicGame.play();
     
     player.insertPlayer()
-    createEnemyInt = setInterval(createEnemy,2000)
+    createEnemyInt = setInterval(createEnemy, intervalToCreate)
+    console.log(intervalToCreate)
     createJavaInt = setInterval(createJava, 10000)
     gameOverId = setInterval(gameOver, 500)
     createLife(3)
     count.style.opacity = 1;
+    startscreen.style.opacity = 0;
+
+    function createEnemy() {
+        var coord = Math.floor(Math.random() * 10) * 72 // generacion de ramdon
+        var coord1 = Math.floor(Math.random() * 10) * 72 // generacion de ramdon
+        var enemyY = new EnemyY(coord, 0, board, player, enemies)
+        var enemyX = new EnemyX(0, coord1, board, player, enemies)
+        enemyY.insertEnemy() 
+        enemyX.insertEnemy()
+        enemies.push(enemyY, enemyX) 
+         //velocidad de la caida libre
+         //console.log(enemies)
+          if (intervalToCreate > minSpeed) {
+            intervalToCreate -= increaseSpeed
+        }
+        console.log(intervalToCreate)
+        clearInterval(createEnemyInt); 
+        createEnemyInt = setInterval(createEnemy, intervalToCreate);
+      }
+
 };
 //var createZumoInt = setInterval(createZumo,10000)
 
-/*document.getElementById("restart").addEventListener("click",resetGame)
-
-function resetGame() {
-    gameStart();
-    //clearInterval(gameOverId);
-    //clearInterval(createEnemyInt);
-    //clearInterval(createJavaInt);
-    gameover.style.opacity = 0;
-
-}*/
+let refresh = document.getElementById("restart"); refresh.addEventListener('click', _ => {             location.reload(); })
 
 
 window.onload=function(){
